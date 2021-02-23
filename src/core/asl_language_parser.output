@@ -1,0 +1,1910 @@
+Terminals unused in grammar
+
+   T_GLOBAL
+
+
+Grammar
+
+    0 $accept: translation_unit $end
+
+    1 translation_unit: function_declaration
+    2                 | unlimited_statement
+    3                 | translation_unit unlimited_statement
+    4                 | translation_unit limited_statement
+    5                 | translation_unit function_declaration
+
+    6 function_declaration: T_FUNCTION T_IDENTIFIER T_LP param_list T_RP statement_block
+    7                     | T_FUNCTION T_IDENTIFIER T_LP T_RP statement_block
+
+    8 param_list: param
+    9           | param_list T_COMMA param
+
+   10 param: T_IDENTIFIER T_VARIABLE T_ASSIGN primary_prime_exp
+   11      | T_VARIABLE T_ASSIGN primary_prime_exp
+   12      | T_IDENTIFIER T_VARIABLE
+   13      | T_VARIABLE
+
+   14 unlimited_statement: exp_statement
+   15                    | for_statement
+   16                    | if_statement
+   17                    | return_statement
+   18                    | include_statement
+   19                    | do_while_statement
+   20                    | while_statement
+
+   21 limited_statement: break_statement
+   22                  | continue_statement
+
+   23 all_statement: unlimited_statement
+   24              | limited_statement
+
+   25 exp_statement: all_exp T_SEMICOLON
+
+   26 include_statement: T_INCLUDE all_exp T_SEMICOLON
+
+   27 if_statement: T_IF T_LP all_exp T_RP statement_block
+   28             | T_IF T_LP all_exp T_RP statement_block T_ELSE statement_block
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON option_exp T_SEMICOLON option_exp T_RP statement_block
+
+   30 do_while_statement: T_DO statement_block T_WHILE T_LP all_exp T_RP T_SEMICOLON
+
+   31 while_statement: T_WHILE T_LP all_exp T_RP statement_block
+
+   32 break_statement: T_BREAK T_SEMICOLON
+
+   33 continue_statement: T_CONTINUE T_SEMICOLON
+
+   34 return_statement: T_RETURN option_exp T_SEMICOLON
+
+   35 statement_list: all_statement
+   36               | statement_list all_statement
+
+   37 statement_block: T_LBRACE T_RBRACE
+   38                | T_LBRACE statement_list T_RBRACE
+
+   39 all_exp: equation_exp
+   40        | T_VARIABLE T_ASSIGN all_exp
+
+   41 equation_exp: relation_exp
+   42             | equation_exp T_EQ relation_exp
+   43             | equation_exp T_NEQ relation_exp
+
+   44 relation_exp: addition_exp
+   45             | relation_exp T_LT addition_exp
+   46             | relation_exp T_LE addition_exp
+   47             | relation_exp T_GT addition_exp
+   48             | relation_exp T_GE addition_exp
+
+   49 addition_exp: multiplication_exp
+   50             | addition_exp T_PLUS multiplication_exp
+   51             | addition_exp T_SUB multiplication_exp
+
+   52 multiplication_exp: primary_exp
+   53                   | multiplication_exp T_DIV primary_exp
+   54                   | multiplication_exp T_MUL primary_exp
+
+   55 primary_exp: primary_prime_exp
+   56            | primary_variable_exp
+   57            | primary_call_exp
+
+   58 primary_prime_exp: T_LITERAL_STRING
+   59                  | T_LITERAL_DIGIT
+   60                  | T_SUB T_LITERAL_DIGIT
+   61                  | T_LITERAL_DOUBLE
+   62                  | T_SUB T_LITERAL_DOUBLE
+   63                  | T_TRUE
+   64                  | T_FALSE
+   65                  | T_NULL
+
+   66 primary_variable_exp: T_VARIABLE
+   67                     | T_SUB T_VARIABLE
+
+   68 primary_call_exp: T_IDENTIFIER T_LP call_param_list T_RP
+   69                 | T_SUB T_IDENTIFIER T_LP call_param_list T_RP
+
+   70 option_exp: all_exp
+   71           | T_LP all_exp T_RP
+   72           | %empty
+
+   73 call_param_list: all_exp
+   74                | call_param_list T_COMMA all_exp
+   75                | %empty
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+T_LITERAL_DIGIT (258) 59 60
+T_LITERAL_DOUBLE (259) 61 62
+T_FUNCTION (260) 6 7
+T_GLOBAL (261)
+T_FOR (262) 29
+T_IF (263) 27 28
+T_ELSE (264) 28
+T_RETURN (265) 34
+T_INCLUDE (266) 26
+T_CONTINUE (267) 33
+T_BREAK (268) 32
+T_WHILE (269) 30 31
+T_DO (270) 30
+T_TRUE (271) 63
+T_FALSE (272) 64
+T_NULL (273) 65
+T_PLUS (274) 50
+T_SUB (275) 51 60 62 67 69
+T_MUL (276) 54
+T_DIV (277) 53
+T_ASSIGN (278) 10 11 40
+T_EQ (279) 42
+T_NEQ (280) 43
+T_GE (281) 48
+T_GT (282) 47
+T_LE (283) 46
+T_LT (284) 45
+T_LP (285) 6 7 27 28 29 30 31 68 69 71
+T_RP (286) 6 7 27 28 29 30 31 68 69 71
+T_LBRACE (287) 37 38
+T_RBRACE (288) 37 38
+T_SEMICOLON (289) 25 26 29 30 32 33 34
+T_COMMA (290) 9 74
+T_IDENTIFIER (291) 6 7 10 12 68 69
+T_LITERAL_STRING (292) 58
+T_VARIABLE (293) 10 11 12 13 40 66 67
+
+
+Nonterminals, with rules where they appear
+
+$accept (39)
+    on left: 0
+translation_unit (40)
+    on left: 1 2 3 4 5, on right: 0 3 4 5
+function_declaration (41)
+    on left: 6 7, on right: 1 5
+param_list (42)
+    on left: 8 9, on right: 6 9
+param (43)
+    on left: 10 11 12 13, on right: 8 9
+unlimited_statement (44)
+    on left: 14 15 16 17 18 19 20, on right: 2 3 23
+limited_statement (45)
+    on left: 21 22, on right: 4 24
+all_statement (46)
+    on left: 23 24, on right: 35 36
+exp_statement (47)
+    on left: 25, on right: 14
+include_statement (48)
+    on left: 26, on right: 18
+if_statement (49)
+    on left: 27 28, on right: 16
+for_statement (50)
+    on left: 29, on right: 15
+do_while_statement (51)
+    on left: 30, on right: 19
+while_statement (52)
+    on left: 31, on right: 20
+break_statement (53)
+    on left: 32, on right: 21
+continue_statement (54)
+    on left: 33, on right: 22
+return_statement (55)
+    on left: 34, on right: 17
+statement_list (56)
+    on left: 35 36, on right: 36 38
+statement_block (57)
+    on left: 37 38, on right: 6 7 27 28 29 30 31
+all_exp (58)
+    on left: 39 40, on right: 25 26 27 28 30 31 40 70 71 73 74
+equation_exp (59)
+    on left: 41 42 43, on right: 39 42 43
+relation_exp (60)
+    on left: 44 45 46 47 48, on right: 41 42 43 45 46 47 48
+addition_exp (61)
+    on left: 49 50 51, on right: 44 45 46 47 48 50 51
+multiplication_exp (62)
+    on left: 52 53 54, on right: 49 50 51 53 54
+primary_exp (63)
+    on left: 55 56 57, on right: 52 53 54
+primary_prime_exp (64)
+    on left: 58 59 60 61 62 63 64 65, on right: 10 11 55
+primary_variable_exp (65)
+    on left: 66 67, on right: 56
+primary_call_exp (66)
+    on left: 68 69, on right: 57
+option_exp (67)
+    on left: 70 71 72, on right: 29 34
+call_param_list (68)
+    on left: 73 74 75, on right: 68 69 74
+
+
+State 0
+
+    0 $accept: . translation_unit $end
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_FUNCTION        shift, and go to state 3
+    T_FOR             shift, and go to state 4
+    T_IF              shift, and go to state 5
+    T_RETURN          shift, and go to state 6
+    T_INCLUDE         shift, and go to state 7
+    T_WHILE           shift, and go to state 8
+    T_DO              shift, and go to state 9
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    translation_unit      go to state 17
+    function_declaration  go to state 18
+    unlimited_statement   go to state 19
+    exp_statement         go to state 20
+    include_statement     go to state 21
+    if_statement          go to state 22
+    for_statement         go to state 23
+    do_while_statement    go to state 24
+    while_statement       go to state 25
+    return_statement      go to state 26
+    all_exp               go to state 27
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 1
+
+   59 primary_prime_exp: T_LITERAL_DIGIT .
+
+    $default  reduce using rule 59 (primary_prime_exp)
+
+
+State 2
+
+   61 primary_prime_exp: T_LITERAL_DOUBLE .
+
+    $default  reduce using rule 61 (primary_prime_exp)
+
+
+State 3
+
+    6 function_declaration: T_FUNCTION . T_IDENTIFIER T_LP param_list T_RP statement_block
+    7                     | T_FUNCTION . T_IDENTIFIER T_LP T_RP statement_block
+
+    T_IDENTIFIER  shift, and go to state 36
+
+
+State 4
+
+   29 for_statement: T_FOR . T_LP option_exp T_SEMICOLON option_exp T_SEMICOLON option_exp T_RP statement_block
+
+    T_LP  shift, and go to state 37
+
+
+State 5
+
+   27 if_statement: T_IF . T_LP all_exp T_RP statement_block
+   28             | T_IF . T_LP all_exp T_RP statement_block T_ELSE statement_block
+
+    T_LP  shift, and go to state 38
+
+
+State 6
+
+   34 return_statement: T_RETURN . option_exp T_SEMICOLON
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_LP              shift, and go to state 39
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    $default  reduce using rule 72 (option_exp)
+
+    all_exp               go to state 40
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+    option_exp            go to state 41
+
+
+State 7
+
+   26 include_statement: T_INCLUDE . all_exp T_SEMICOLON
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 42
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 8
+
+   31 while_statement: T_WHILE . T_LP all_exp T_RP statement_block
+
+    T_LP  shift, and go to state 43
+
+
+State 9
+
+   30 do_while_statement: T_DO . statement_block T_WHILE T_LP all_exp T_RP T_SEMICOLON
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 45
+
+
+State 10
+
+   63 primary_prime_exp: T_TRUE .
+
+    $default  reduce using rule 63 (primary_prime_exp)
+
+
+State 11
+
+   64 primary_prime_exp: T_FALSE .
+
+    $default  reduce using rule 64 (primary_prime_exp)
+
+
+State 12
+
+   65 primary_prime_exp: T_NULL .
+
+    $default  reduce using rule 65 (primary_prime_exp)
+
+
+State 13
+
+   60 primary_prime_exp: T_SUB . T_LITERAL_DIGIT
+   62                  | T_SUB . T_LITERAL_DOUBLE
+   67 primary_variable_exp: T_SUB . T_VARIABLE
+   69 primary_call_exp: T_SUB . T_IDENTIFIER T_LP call_param_list T_RP
+
+    T_LITERAL_DIGIT   shift, and go to state 46
+    T_LITERAL_DOUBLE  shift, and go to state 47
+    T_IDENTIFIER      shift, and go to state 48
+    T_VARIABLE        shift, and go to state 49
+
+
+State 14
+
+   68 primary_call_exp: T_IDENTIFIER . T_LP call_param_list T_RP
+
+    T_LP  shift, and go to state 50
+
+
+State 15
+
+   58 primary_prime_exp: T_LITERAL_STRING .
+
+    $default  reduce using rule 58 (primary_prime_exp)
+
+
+State 16
+
+   40 all_exp: T_VARIABLE . T_ASSIGN all_exp
+   66 primary_variable_exp: T_VARIABLE .
+
+    T_ASSIGN  shift, and go to state 51
+
+    $default  reduce using rule 66 (primary_variable_exp)
+
+
+State 17
+
+    0 $accept: translation_unit . $end
+    3 translation_unit: translation_unit . unlimited_statement
+    4                 | translation_unit . limited_statement
+    5                 | translation_unit . function_declaration
+
+    $end              shift, and go to state 52
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_FUNCTION        shift, and go to state 3
+    T_FOR             shift, and go to state 4
+    T_IF              shift, and go to state 5
+    T_RETURN          shift, and go to state 6
+    T_INCLUDE         shift, and go to state 7
+    T_CONTINUE        shift, and go to state 53
+    T_BREAK           shift, and go to state 54
+    T_WHILE           shift, and go to state 8
+    T_DO              shift, and go to state 9
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    function_declaration  go to state 55
+    unlimited_statement   go to state 56
+    limited_statement     go to state 57
+    exp_statement         go to state 20
+    include_statement     go to state 21
+    if_statement          go to state 22
+    for_statement         go to state 23
+    do_while_statement    go to state 24
+    while_statement       go to state 25
+    break_statement       go to state 58
+    continue_statement    go to state 59
+    return_statement      go to state 26
+    all_exp               go to state 27
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 18
+
+    1 translation_unit: function_declaration .
+
+    $default  reduce using rule 1 (translation_unit)
+
+
+State 19
+
+    2 translation_unit: unlimited_statement .
+
+    $default  reduce using rule 2 (translation_unit)
+
+
+State 20
+
+   14 unlimited_statement: exp_statement .
+
+    $default  reduce using rule 14 (unlimited_statement)
+
+
+State 21
+
+   18 unlimited_statement: include_statement .
+
+    $default  reduce using rule 18 (unlimited_statement)
+
+
+State 22
+
+   16 unlimited_statement: if_statement .
+
+    $default  reduce using rule 16 (unlimited_statement)
+
+
+State 23
+
+   15 unlimited_statement: for_statement .
+
+    $default  reduce using rule 15 (unlimited_statement)
+
+
+State 24
+
+   19 unlimited_statement: do_while_statement .
+
+    $default  reduce using rule 19 (unlimited_statement)
+
+
+State 25
+
+   20 unlimited_statement: while_statement .
+
+    $default  reduce using rule 20 (unlimited_statement)
+
+
+State 26
+
+   17 unlimited_statement: return_statement .
+
+    $default  reduce using rule 17 (unlimited_statement)
+
+
+State 27
+
+   25 exp_statement: all_exp . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 60
+
+
+State 28
+
+   39 all_exp: equation_exp .
+   42 equation_exp: equation_exp . T_EQ relation_exp
+   43             | equation_exp . T_NEQ relation_exp
+
+    T_EQ   shift, and go to state 61
+    T_NEQ  shift, and go to state 62
+
+    $default  reduce using rule 39 (all_exp)
+
+
+State 29
+
+   41 equation_exp: relation_exp .
+   45 relation_exp: relation_exp . T_LT addition_exp
+   46             | relation_exp . T_LE addition_exp
+   47             | relation_exp . T_GT addition_exp
+   48             | relation_exp . T_GE addition_exp
+
+    T_GE  shift, and go to state 63
+    T_GT  shift, and go to state 64
+    T_LE  shift, and go to state 65
+    T_LT  shift, and go to state 66
+
+    $default  reduce using rule 41 (equation_exp)
+
+
+State 30
+
+   44 relation_exp: addition_exp .
+   50 addition_exp: addition_exp . T_PLUS multiplication_exp
+   51             | addition_exp . T_SUB multiplication_exp
+
+    T_PLUS  shift, and go to state 67
+    T_SUB   shift, and go to state 68
+
+    $default  reduce using rule 44 (relation_exp)
+
+
+State 31
+
+   49 addition_exp: multiplication_exp .
+   53 multiplication_exp: multiplication_exp . T_DIV primary_exp
+   54                   | multiplication_exp . T_MUL primary_exp
+
+    T_MUL  shift, and go to state 69
+    T_DIV  shift, and go to state 70
+
+    $default  reduce using rule 49 (addition_exp)
+
+
+State 32
+
+   52 multiplication_exp: primary_exp .
+
+    $default  reduce using rule 52 (multiplication_exp)
+
+
+State 33
+
+   55 primary_exp: primary_prime_exp .
+
+    $default  reduce using rule 55 (primary_exp)
+
+
+State 34
+
+   56 primary_exp: primary_variable_exp .
+
+    $default  reduce using rule 56 (primary_exp)
+
+
+State 35
+
+   57 primary_exp: primary_call_exp .
+
+    $default  reduce using rule 57 (primary_exp)
+
+
+State 36
+
+    6 function_declaration: T_FUNCTION T_IDENTIFIER . T_LP param_list T_RP statement_block
+    7                     | T_FUNCTION T_IDENTIFIER . T_LP T_RP statement_block
+
+    T_LP  shift, and go to state 71
+
+
+State 37
+
+   29 for_statement: T_FOR T_LP . option_exp T_SEMICOLON option_exp T_SEMICOLON option_exp T_RP statement_block
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_LP              shift, and go to state 39
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    $default  reduce using rule 72 (option_exp)
+
+    all_exp               go to state 40
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+    option_exp            go to state 72
+
+
+State 38
+
+   27 if_statement: T_IF T_LP . all_exp T_RP statement_block
+   28             | T_IF T_LP . all_exp T_RP statement_block T_ELSE statement_block
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 73
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 39
+
+   71 option_exp: T_LP . all_exp T_RP
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 74
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 40
+
+   70 option_exp: all_exp .
+
+    $default  reduce using rule 70 (option_exp)
+
+
+State 41
+
+   34 return_statement: T_RETURN option_exp . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 75
+
+
+State 42
+
+   26 include_statement: T_INCLUDE all_exp . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 76
+
+
+State 43
+
+   31 while_statement: T_WHILE T_LP . all_exp T_RP statement_block
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 77
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 44
+
+   37 statement_block: T_LBRACE . T_RBRACE
+   38                | T_LBRACE . statement_list T_RBRACE
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_FOR             shift, and go to state 4
+    T_IF              shift, and go to state 5
+    T_RETURN          shift, and go to state 6
+    T_INCLUDE         shift, and go to state 7
+    T_CONTINUE        shift, and go to state 53
+    T_BREAK           shift, and go to state 54
+    T_WHILE           shift, and go to state 8
+    T_DO              shift, and go to state 9
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_RBRACE          shift, and go to state 78
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    unlimited_statement   go to state 79
+    limited_statement     go to state 80
+    all_statement         go to state 81
+    exp_statement         go to state 20
+    include_statement     go to state 21
+    if_statement          go to state 22
+    for_statement         go to state 23
+    do_while_statement    go to state 24
+    while_statement       go to state 25
+    break_statement       go to state 58
+    continue_statement    go to state 59
+    return_statement      go to state 26
+    statement_list        go to state 82
+    all_exp               go to state 27
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 45
+
+   30 do_while_statement: T_DO statement_block . T_WHILE T_LP all_exp T_RP T_SEMICOLON
+
+    T_WHILE  shift, and go to state 83
+
+
+State 46
+
+   60 primary_prime_exp: T_SUB T_LITERAL_DIGIT .
+
+    $default  reduce using rule 60 (primary_prime_exp)
+
+
+State 47
+
+   62 primary_prime_exp: T_SUB T_LITERAL_DOUBLE .
+
+    $default  reduce using rule 62 (primary_prime_exp)
+
+
+State 48
+
+   69 primary_call_exp: T_SUB T_IDENTIFIER . T_LP call_param_list T_RP
+
+    T_LP  shift, and go to state 84
+
+
+State 49
+
+   67 primary_variable_exp: T_SUB T_VARIABLE .
+
+    $default  reduce using rule 67 (primary_variable_exp)
+
+
+State 50
+
+   68 primary_call_exp: T_IDENTIFIER T_LP . call_param_list T_RP
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    $default  reduce using rule 75 (call_param_list)
+
+    all_exp               go to state 85
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+    call_param_list       go to state 86
+
+
+State 51
+
+   40 all_exp: T_VARIABLE T_ASSIGN . all_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 87
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 52
+
+    0 $accept: translation_unit $end .
+
+    $default  accept
+
+
+State 53
+
+   33 continue_statement: T_CONTINUE . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 88
+
+
+State 54
+
+   32 break_statement: T_BREAK . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 89
+
+
+State 55
+
+    5 translation_unit: translation_unit function_declaration .
+
+    $default  reduce using rule 5 (translation_unit)
+
+
+State 56
+
+    3 translation_unit: translation_unit unlimited_statement .
+
+    $default  reduce using rule 3 (translation_unit)
+
+
+State 57
+
+    4 translation_unit: translation_unit limited_statement .
+
+    $default  reduce using rule 4 (translation_unit)
+
+
+State 58
+
+   21 limited_statement: break_statement .
+
+    $default  reduce using rule 21 (limited_statement)
+
+
+State 59
+
+   22 limited_statement: continue_statement .
+
+    $default  reduce using rule 22 (limited_statement)
+
+
+State 60
+
+   25 exp_statement: all_exp T_SEMICOLON .
+
+    $default  reduce using rule 25 (exp_statement)
+
+
+State 61
+
+   42 equation_exp: equation_exp T_EQ . relation_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    relation_exp          go to state 91
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 62
+
+   43 equation_exp: equation_exp T_NEQ . relation_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    relation_exp          go to state 92
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 63
+
+   48 relation_exp: relation_exp T_GE . addition_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    addition_exp          go to state 93
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 64
+
+   47 relation_exp: relation_exp T_GT . addition_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    addition_exp          go to state 94
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 65
+
+   46 relation_exp: relation_exp T_LE . addition_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    addition_exp          go to state 95
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 66
+
+   45 relation_exp: relation_exp T_LT . addition_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    addition_exp          go to state 96
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 67
+
+   50 addition_exp: addition_exp T_PLUS . multiplication_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    multiplication_exp    go to state 97
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 68
+
+   51 addition_exp: addition_exp T_SUB . multiplication_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    multiplication_exp    go to state 98
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 69
+
+   54 multiplication_exp: multiplication_exp T_MUL . primary_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    primary_exp           go to state 99
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 70
+
+   53 multiplication_exp: multiplication_exp T_DIV . primary_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 90
+
+    primary_exp           go to state 100
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 71
+
+    6 function_declaration: T_FUNCTION T_IDENTIFIER T_LP . param_list T_RP statement_block
+    7                     | T_FUNCTION T_IDENTIFIER T_LP . T_RP statement_block
+
+    T_RP          shift, and go to state 101
+    T_IDENTIFIER  shift, and go to state 102
+    T_VARIABLE    shift, and go to state 103
+
+    param_list  go to state 104
+    param       go to state 105
+
+
+State 72
+
+   29 for_statement: T_FOR T_LP option_exp . T_SEMICOLON option_exp T_SEMICOLON option_exp T_RP statement_block
+
+    T_SEMICOLON  shift, and go to state 106
+
+
+State 73
+
+   27 if_statement: T_IF T_LP all_exp . T_RP statement_block
+   28             | T_IF T_LP all_exp . T_RP statement_block T_ELSE statement_block
+
+    T_RP  shift, and go to state 107
+
+
+State 74
+
+   71 option_exp: T_LP all_exp . T_RP
+
+    T_RP  shift, and go to state 108
+
+
+State 75
+
+   34 return_statement: T_RETURN option_exp T_SEMICOLON .
+
+    $default  reduce using rule 34 (return_statement)
+
+
+State 76
+
+   26 include_statement: T_INCLUDE all_exp T_SEMICOLON .
+
+    $default  reduce using rule 26 (include_statement)
+
+
+State 77
+
+   31 while_statement: T_WHILE T_LP all_exp . T_RP statement_block
+
+    T_RP  shift, and go to state 109
+
+
+State 78
+
+   37 statement_block: T_LBRACE T_RBRACE .
+
+    $default  reduce using rule 37 (statement_block)
+
+
+State 79
+
+   23 all_statement: unlimited_statement .
+
+    $default  reduce using rule 23 (all_statement)
+
+
+State 80
+
+   24 all_statement: limited_statement .
+
+    $default  reduce using rule 24 (all_statement)
+
+
+State 81
+
+   35 statement_list: all_statement .
+
+    $default  reduce using rule 35 (statement_list)
+
+
+State 82
+
+   36 statement_list: statement_list . all_statement
+   38 statement_block: T_LBRACE statement_list . T_RBRACE
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_FOR             shift, and go to state 4
+    T_IF              shift, and go to state 5
+    T_RETURN          shift, and go to state 6
+    T_INCLUDE         shift, and go to state 7
+    T_CONTINUE        shift, and go to state 53
+    T_BREAK           shift, and go to state 54
+    T_WHILE           shift, and go to state 8
+    T_DO              shift, and go to state 9
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_RBRACE          shift, and go to state 110
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    unlimited_statement   go to state 79
+    limited_statement     go to state 80
+    all_statement         go to state 111
+    exp_statement         go to state 20
+    include_statement     go to state 21
+    if_statement          go to state 22
+    for_statement         go to state 23
+    do_while_statement    go to state 24
+    while_statement       go to state 25
+    break_statement       go to state 58
+    continue_statement    go to state 59
+    return_statement      go to state 26
+    all_exp               go to state 27
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 83
+
+   30 do_while_statement: T_DO statement_block T_WHILE . T_LP all_exp T_RP T_SEMICOLON
+
+    T_LP  shift, and go to state 112
+
+
+State 84
+
+   69 primary_call_exp: T_SUB T_IDENTIFIER T_LP . call_param_list T_RP
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    $default  reduce using rule 75 (call_param_list)
+
+    all_exp               go to state 85
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+    call_param_list       go to state 113
+
+
+State 85
+
+   73 call_param_list: all_exp .
+
+    $default  reduce using rule 73 (call_param_list)
+
+
+State 86
+
+   68 primary_call_exp: T_IDENTIFIER T_LP call_param_list . T_RP
+   74 call_param_list: call_param_list . T_COMMA all_exp
+
+    T_RP     shift, and go to state 114
+    T_COMMA  shift, and go to state 115
+
+
+State 87
+
+   40 all_exp: T_VARIABLE T_ASSIGN all_exp .
+
+    $default  reduce using rule 40 (all_exp)
+
+
+State 88
+
+   33 continue_statement: T_CONTINUE T_SEMICOLON .
+
+    $default  reduce using rule 33 (continue_statement)
+
+
+State 89
+
+   32 break_statement: T_BREAK T_SEMICOLON .
+
+    $default  reduce using rule 32 (break_statement)
+
+
+State 90
+
+   66 primary_variable_exp: T_VARIABLE .
+
+    $default  reduce using rule 66 (primary_variable_exp)
+
+
+State 91
+
+   42 equation_exp: equation_exp T_EQ relation_exp .
+   45 relation_exp: relation_exp . T_LT addition_exp
+   46             | relation_exp . T_LE addition_exp
+   47             | relation_exp . T_GT addition_exp
+   48             | relation_exp . T_GE addition_exp
+
+    T_GE  shift, and go to state 63
+    T_GT  shift, and go to state 64
+    T_LE  shift, and go to state 65
+    T_LT  shift, and go to state 66
+
+    $default  reduce using rule 42 (equation_exp)
+
+
+State 92
+
+   43 equation_exp: equation_exp T_NEQ relation_exp .
+   45 relation_exp: relation_exp . T_LT addition_exp
+   46             | relation_exp . T_LE addition_exp
+   47             | relation_exp . T_GT addition_exp
+   48             | relation_exp . T_GE addition_exp
+
+    T_GE  shift, and go to state 63
+    T_GT  shift, and go to state 64
+    T_LE  shift, and go to state 65
+    T_LT  shift, and go to state 66
+
+    $default  reduce using rule 43 (equation_exp)
+
+
+State 93
+
+   48 relation_exp: relation_exp T_GE addition_exp .
+   50 addition_exp: addition_exp . T_PLUS multiplication_exp
+   51             | addition_exp . T_SUB multiplication_exp
+
+    T_PLUS  shift, and go to state 67
+    T_SUB   shift, and go to state 68
+
+    $default  reduce using rule 48 (relation_exp)
+
+
+State 94
+
+   47 relation_exp: relation_exp T_GT addition_exp .
+   50 addition_exp: addition_exp . T_PLUS multiplication_exp
+   51             | addition_exp . T_SUB multiplication_exp
+
+    T_PLUS  shift, and go to state 67
+    T_SUB   shift, and go to state 68
+
+    $default  reduce using rule 47 (relation_exp)
+
+
+State 95
+
+   46 relation_exp: relation_exp T_LE addition_exp .
+   50 addition_exp: addition_exp . T_PLUS multiplication_exp
+   51             | addition_exp . T_SUB multiplication_exp
+
+    T_PLUS  shift, and go to state 67
+    T_SUB   shift, and go to state 68
+
+    $default  reduce using rule 46 (relation_exp)
+
+
+State 96
+
+   45 relation_exp: relation_exp T_LT addition_exp .
+   50 addition_exp: addition_exp . T_PLUS multiplication_exp
+   51             | addition_exp . T_SUB multiplication_exp
+
+    T_PLUS  shift, and go to state 67
+    T_SUB   shift, and go to state 68
+
+    $default  reduce using rule 45 (relation_exp)
+
+
+State 97
+
+   50 addition_exp: addition_exp T_PLUS multiplication_exp .
+   53 multiplication_exp: multiplication_exp . T_DIV primary_exp
+   54                   | multiplication_exp . T_MUL primary_exp
+
+    T_MUL  shift, and go to state 69
+    T_DIV  shift, and go to state 70
+
+    $default  reduce using rule 50 (addition_exp)
+
+
+State 98
+
+   51 addition_exp: addition_exp T_SUB multiplication_exp .
+   53 multiplication_exp: multiplication_exp . T_DIV primary_exp
+   54                   | multiplication_exp . T_MUL primary_exp
+
+    T_MUL  shift, and go to state 69
+    T_DIV  shift, and go to state 70
+
+    $default  reduce using rule 51 (addition_exp)
+
+
+State 99
+
+   54 multiplication_exp: multiplication_exp T_MUL primary_exp .
+
+    $default  reduce using rule 54 (multiplication_exp)
+
+
+State 100
+
+   53 multiplication_exp: multiplication_exp T_DIV primary_exp .
+
+    $default  reduce using rule 53 (multiplication_exp)
+
+
+State 101
+
+    7 function_declaration: T_FUNCTION T_IDENTIFIER T_LP T_RP . statement_block
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 116
+
+
+State 102
+
+   10 param: T_IDENTIFIER . T_VARIABLE T_ASSIGN primary_prime_exp
+   12      | T_IDENTIFIER . T_VARIABLE
+
+    T_VARIABLE  shift, and go to state 117
+
+
+State 103
+
+   11 param: T_VARIABLE . T_ASSIGN primary_prime_exp
+   13      | T_VARIABLE .
+
+    T_ASSIGN  shift, and go to state 118
+
+    $default  reduce using rule 13 (param)
+
+
+State 104
+
+    6 function_declaration: T_FUNCTION T_IDENTIFIER T_LP param_list . T_RP statement_block
+    9 param_list: param_list . T_COMMA param
+
+    T_RP     shift, and go to state 119
+    T_COMMA  shift, and go to state 120
+
+
+State 105
+
+    8 param_list: param .
+
+    $default  reduce using rule 8 (param_list)
+
+
+State 106
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON . option_exp T_SEMICOLON option_exp T_RP statement_block
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_LP              shift, and go to state 39
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    $default  reduce using rule 72 (option_exp)
+
+    all_exp               go to state 40
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+    option_exp            go to state 121
+
+
+State 107
+
+   27 if_statement: T_IF T_LP all_exp T_RP . statement_block
+   28             | T_IF T_LP all_exp T_RP . statement_block T_ELSE statement_block
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 122
+
+
+State 108
+
+   71 option_exp: T_LP all_exp T_RP .
+
+    $default  reduce using rule 71 (option_exp)
+
+
+State 109
+
+   31 while_statement: T_WHILE T_LP all_exp T_RP . statement_block
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 123
+
+
+State 110
+
+   38 statement_block: T_LBRACE statement_list T_RBRACE .
+
+    $default  reduce using rule 38 (statement_block)
+
+
+State 111
+
+   36 statement_list: statement_list all_statement .
+
+    $default  reduce using rule 36 (statement_list)
+
+
+State 112
+
+   30 do_while_statement: T_DO statement_block T_WHILE T_LP . all_exp T_RP T_SEMICOLON
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 124
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 113
+
+   69 primary_call_exp: T_SUB T_IDENTIFIER T_LP call_param_list . T_RP
+   74 call_param_list: call_param_list . T_COMMA all_exp
+
+    T_RP     shift, and go to state 125
+    T_COMMA  shift, and go to state 115
+
+
+State 114
+
+   68 primary_call_exp: T_IDENTIFIER T_LP call_param_list T_RP .
+
+    $default  reduce using rule 68 (primary_call_exp)
+
+
+State 115
+
+   74 call_param_list: call_param_list T_COMMA . all_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    all_exp               go to state 126
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+
+
+State 116
+
+    7 function_declaration: T_FUNCTION T_IDENTIFIER T_LP T_RP statement_block .
+
+    $default  reduce using rule 7 (function_declaration)
+
+
+State 117
+
+   10 param: T_IDENTIFIER T_VARIABLE . T_ASSIGN primary_prime_exp
+   12      | T_IDENTIFIER T_VARIABLE .
+
+    T_ASSIGN  shift, and go to state 127
+
+    $default  reduce using rule 12 (param)
+
+
+State 118
+
+   11 param: T_VARIABLE T_ASSIGN . primary_prime_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 128
+    T_LITERAL_STRING  shift, and go to state 15
+
+    primary_prime_exp  go to state 129
+
+
+State 119
+
+    6 function_declaration: T_FUNCTION T_IDENTIFIER T_LP param_list T_RP . statement_block
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 130
+
+
+State 120
+
+    9 param_list: param_list T_COMMA . param
+
+    T_IDENTIFIER  shift, and go to state 102
+    T_VARIABLE    shift, and go to state 103
+
+    param  go to state 131
+
+
+State 121
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON option_exp . T_SEMICOLON option_exp T_RP statement_block
+
+    T_SEMICOLON  shift, and go to state 132
+
+
+State 122
+
+   27 if_statement: T_IF T_LP all_exp T_RP statement_block .
+   28             | T_IF T_LP all_exp T_RP statement_block . T_ELSE statement_block
+
+    T_ELSE  shift, and go to state 133
+
+    $default  reduce using rule 27 (if_statement)
+
+
+State 123
+
+   31 while_statement: T_WHILE T_LP all_exp T_RP statement_block .
+
+    $default  reduce using rule 31 (while_statement)
+
+
+State 124
+
+   30 do_while_statement: T_DO statement_block T_WHILE T_LP all_exp . T_RP T_SEMICOLON
+
+    T_RP  shift, and go to state 134
+
+
+State 125
+
+   69 primary_call_exp: T_SUB T_IDENTIFIER T_LP call_param_list T_RP .
+
+    $default  reduce using rule 69 (primary_call_exp)
+
+
+State 126
+
+   74 call_param_list: call_param_list T_COMMA all_exp .
+
+    $default  reduce using rule 74 (call_param_list)
+
+
+State 127
+
+   10 param: T_IDENTIFIER T_VARIABLE T_ASSIGN . primary_prime_exp
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 128
+    T_LITERAL_STRING  shift, and go to state 15
+
+    primary_prime_exp  go to state 135
+
+
+State 128
+
+   60 primary_prime_exp: T_SUB . T_LITERAL_DIGIT
+   62                  | T_SUB . T_LITERAL_DOUBLE
+
+    T_LITERAL_DIGIT   shift, and go to state 46
+    T_LITERAL_DOUBLE  shift, and go to state 47
+
+
+State 129
+
+   11 param: T_VARIABLE T_ASSIGN primary_prime_exp .
+
+    $default  reduce using rule 11 (param)
+
+
+State 130
+
+    6 function_declaration: T_FUNCTION T_IDENTIFIER T_LP param_list T_RP statement_block .
+
+    $default  reduce using rule 6 (function_declaration)
+
+
+State 131
+
+    9 param_list: param_list T_COMMA param .
+
+    $default  reduce using rule 9 (param_list)
+
+
+State 132
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON option_exp T_SEMICOLON . option_exp T_RP statement_block
+
+    T_LITERAL_DIGIT   shift, and go to state 1
+    T_LITERAL_DOUBLE  shift, and go to state 2
+    T_TRUE            shift, and go to state 10
+    T_FALSE           shift, and go to state 11
+    T_NULL            shift, and go to state 12
+    T_SUB             shift, and go to state 13
+    T_LP              shift, and go to state 39
+    T_IDENTIFIER      shift, and go to state 14
+    T_LITERAL_STRING  shift, and go to state 15
+    T_VARIABLE        shift, and go to state 16
+
+    $default  reduce using rule 72 (option_exp)
+
+    all_exp               go to state 40
+    equation_exp          go to state 28
+    relation_exp          go to state 29
+    addition_exp          go to state 30
+    multiplication_exp    go to state 31
+    primary_exp           go to state 32
+    primary_prime_exp     go to state 33
+    primary_variable_exp  go to state 34
+    primary_call_exp      go to state 35
+    option_exp            go to state 136
+
+
+State 133
+
+   28 if_statement: T_IF T_LP all_exp T_RP statement_block T_ELSE . statement_block
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 137
+
+
+State 134
+
+   30 do_while_statement: T_DO statement_block T_WHILE T_LP all_exp T_RP . T_SEMICOLON
+
+    T_SEMICOLON  shift, and go to state 138
+
+
+State 135
+
+   10 param: T_IDENTIFIER T_VARIABLE T_ASSIGN primary_prime_exp .
+
+    $default  reduce using rule 10 (param)
+
+
+State 136
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON option_exp T_SEMICOLON option_exp . T_RP statement_block
+
+    T_RP  shift, and go to state 139
+
+
+State 137
+
+   28 if_statement: T_IF T_LP all_exp T_RP statement_block T_ELSE statement_block .
+
+    $default  reduce using rule 28 (if_statement)
+
+
+State 138
+
+   30 do_while_statement: T_DO statement_block T_WHILE T_LP all_exp T_RP T_SEMICOLON .
+
+    $default  reduce using rule 30 (do_while_statement)
+
+
+State 139
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON option_exp T_SEMICOLON option_exp T_RP . statement_block
+
+    T_LBRACE  shift, and go to state 44
+
+    statement_block  go to state 140
+
+
+State 140
+
+   29 for_statement: T_FOR T_LP option_exp T_SEMICOLON option_exp T_SEMICOLON option_exp T_RP statement_block .
+
+    $default  reduce using rule 29 (for_statement)
